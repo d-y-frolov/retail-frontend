@@ -1,0 +1,33 @@
+.modalBackground{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+}
+.modal{
+    /* position:absolute; */
+    width:300px;
+    height: 400px;
+    margin: 40px auto; 
+    padding:10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: white;
+    display:flex;
+    flex-direction: column;
+    justify-content:space-around;
+    align-content: center;
+}
+.buttonWrapper{
+    display:flex;
+    justify-content: space-evenly;
+}
+.headerWrapper{
+    display:flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    /* justify-content:space-evenly; */
+    /* align-content: center; */
+}
