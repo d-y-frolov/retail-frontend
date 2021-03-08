@@ -1,0 +1,43 @@
+.wrapper{
+    width:100%;
+    /* height: 80%; */
+    border:1px solid lightgray;
+    overflow: scroll;
+}
+.header{
+    display:flex;
+
+}
+.headerItem{
+    /* flex-grow: 1; */
+    border:1px solid lightgray;
+    background-color: black;
+    color: white;
+    word-break: break-word;
+}
+.headerBtn{
+    border:1px solid lightgray;
+    background-color: black;
+    color: white;
+}
+.body{
+    display:flex;
+    flex-direction: column;
+    
+}
+.bodyLine{
+    display:flex;
+}
+.bodyLine:nth-of-type(odd){
+    background-color: lightgray;
+}
+.bodyBtn{
+    /* border:1px solid lightgray; */
+    background-color: white;
+}
+.bodyItem{
+    /* flex-grow: 1; */
+    border-right:1px solid lightgray;
+    word-break: break-word;
+    padding:1px;
+}

@@ -1,5 +1,10 @@
 export const URL='http://192.168.1.17:8080';
+// export const URL='https://retail-back-end.herokuapp.com/';
 export const URL_PATH_PRODUCT='product';
 export const URL_PATH_CHECK='check';
 export const URL_PATH_CASH='cash-register';
+export const URL_PATH_GROUP='group';
+export const URL_PATH_UNIT='unit';
+export const URL_PATH_REPORT_SALES='report/sales';
+export const URL_PATH_REPORT_GROUP_SALES='report/group-sales';
 export const CASH_ID=2;

@@ -2,6 +2,7 @@ import React from "react";
 import {NavLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import {PATH_CASH,PATH_BACKOFFICE,PATH_REPORTS,PATH_RETAIL,ITEMS} from '../../config/menu'
+import './Navigator.css'
 import classes from './Navigator.module.css'
 const Navigator = () => {
     function getLinks() {

@@ -1,4 +1,5 @@
-import {SET_CASH_PRODUCTS,ADD_CASH_DETAIL,UPDATE_CASH_DETAIL,DELETE_CASH_DETAIL,SAVE_CASH_CHECK,SET_CASH_INFO} from './actions-cash';
+import {SET_CASH_PRODUCTS,ADD_CASH_DETAIL,UPDATE_CASH_DETAIL,DELETE_CASH_DETAIL,
+    CLEAR_CASH_DETAILS,SAVE_CASH_CHECK,SET_CASH_INFO} from './actions-cash';
 const initState={
     cashInfo:{},
     details:[],
@@ -23,6 +24,8 @@ export function reducerCash(cashState=initState, action){
             return {details:newDetails,  products:cashState.products, cashInfo:cashState.cashInfo};}
         case SAVE_CASH_CHECK:
             return {details:action.payload,  products:cashState.products, cashInfo:cashState.cashInfo};
+        case CLEAR_CASH_DETAILS:
+            return {...cashState, details:action.payload};
     }
     return cashState;
 }

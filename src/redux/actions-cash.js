@@ -6,7 +6,8 @@ export const SAVE_CASH_CHECK = "[cash]-save-check";
 export const ADD_CASH_DETAIL = "[cash]-add-detail";
 export const DELETE_CASH_DETAIL = "[cash]-del-detail";
 export const UPDATE_CASH_DETAIL = "[cash]-update-detail";
-export function getProducts(dispatch){
+export const CLEAR_CASH_DETAILS = "[cash]-clear-details";
+export function getProducts(){
     return async dispatch => {
         try{
             const prods = await Axios.get(`${URL}/${URL_PATH_PRODUCT}`).then(response => response.data);
@@ -14,7 +15,7 @@ export function getProducts(dispatch){
         }catch(e){console.error(e);}
     }
 }
-export function getCashInfo(dispatch, cash_id){
+export function getCashInfo(){
     return async dispatch => {
         try{
             const cashInfo = await Axios.get(`${URL}/${URL_PATH_CASH}/${CASH_ID}`).then(response => response.data);
@@ -53,6 +54,12 @@ export function saveCheck(details, checkId, cashId, totalSum){
     };
 }
 
+export function clearDetails(){
+    return {
+        type:CLEAR_CASH_DETAILS,
+        payload:[]
+    };
+}
 export function addDetail(detail){
     return {
         type:ADD_CASH_DETAIL,
