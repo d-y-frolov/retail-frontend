@@ -23,23 +23,23 @@ const Cash=()=>{
             "tax":0
         }
     }
-    function getStartCashInfo(){
-        const info = localStorage.getItem(LOCALSTORAGE_KEY);
-        if (info){
-            return JSON.parse(info);
-        }
-        return { nextNumber:1 };
-    }
+    // function getStartCashInfo(){
+    //     const info = localStorage.getItem(LOCALSTORAGE_KEY);
+    //     if (info){
+    //         return JSON.parse(info);
+    //     }
+    //     return { nextNumber:1 };
+    // }
     const [product, setProduct] = useState(getEmptyProduct);
     const [quantity, setQuantity] = useState(1.00);
-    const [cashInfo, setCashInfo] = useState(getStartCashInfo());
+    // const [cashInfo, setCashInfo] = useState(getStartCashInfo());
     const [editDetail, setEditDetail] = useState({show:false});
     
 
-    function saveCashInfo(newCashInfo){
-        console.log(newCashInfo);
-        localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(newCashInfo));
-    }
+    // function saveCashInfo(newCashInfo){
+    //     console.log(newCashInfo);
+    //     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(newCashInfo));
+    // }
     useEffect( ()=>{
         dispatch( Actions.getProducts() );
         dispatch(Actions.getCashInfo());
@@ -108,10 +108,11 @@ const Cash=()=>{
         if (!details.length){
             return
         }
-        dispatch( Actions.saveCheck( details, cashInfo.nextNumber, CASH_ID, parseFloat( calcTotal() ) ) );
-        const newCashInfo={nextNumber:cashInfo.nextNumber+1};
-        saveCashInfo(newCashInfo);
-        setCashInfo(newCashInfo);
+        // dispatch( Actions.saveCheck( details, cashInfo.nextNumber, CASH_ID, parseFloat( calcTotal() ) ) );
+        dispatch( Actions.saveCheck( details, 0, CASH_ID, parseFloat( calcTotal() ) ) );
+        // const newCashInfo={nextNumber:cashInfo.nextNumber+1};
+        // saveCashInfo(newCashInfo);
+        // setCashInfo(newCashInfo);
     }
     function calcTotal(){
         const totalNum = details.map(v=>v.price*v.quantity).reduce((p,c)=>p+=c,0);
@@ -157,7 +158,7 @@ const Cash=()=>{
         <div className={classes.wrapper}>
             <div className={classes.checkwrapper}>
                 <div className={classes.infowrapper}>
-                    <span>Check № {cashInfo.nextNumber}</span>
+                    {/* <span>Check № {cashInfo.nextNumber}</span> */}
                     <span>{cash.name}</span>
                     <span>{cash.info}</span>
                 </div>
