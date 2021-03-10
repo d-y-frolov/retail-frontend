@@ -1,6 +1,8 @@
 import React,{useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as Actions from '../../../redux/actions-report';
+import * as RequestStatusActions from '../../../redux/actions-request-status';
 import { Chart } from 'react-charts';
 import {normalizeSum,normalizeStringSum,normalizeQuantity, normalizeStringQuantity} from '../../../utils/utilFunctions';
 function getData(chartData){
@@ -30,24 +32,24 @@ function MyChart(chartData) {
       []
     )*/
    
-    const axes = React.useMemo(
-      () => [
+    const axes = /*React.useMemo(
+      () => */[
         { primary: true, type: 'ordinal', position: 'bottom' },
         { type: 'linear', position: 'left' }
-      ],
+      ]/*,
       []
-    )
+    )*/
    
     return (
-      <div
-        style={{
-          width: '80vw',
-          height: '30vh'
-        }}
-      >
+      // <div
+      //   style={{
+      //     width: '80vw',
+      //     height: '30vh'
+      //   }}
+      // >
         <Chart data={data} axes={axes} />
-        {/* <Chart data={chartData} axes={axes} /> */}
-      </div>
+        // {/* <Chart data={chartData} axes={axes} /> */}
+      // </div>
     )
   }
 
@@ -58,15 +60,31 @@ const Report=()=>{
     const dispatch = useDispatch();
     const salesChartData = useSelector(state=>state.report.sales);
     const groupSalesData = useSelector(state=>state.report.groupSales);
+    const requestStatus = useSelector(state=>state.requestStatus);
     const from = useSelector(state=>state.report.from);
     const to = useSelector(state=>state.report.to);
     useEffect(()=>{dispatch(Actions.getSalesReportData(from,to)); dispatch(Actions.getGroupSalesReportData(from,to));},[])
-    return<div style={{marginTop:"20px"}}>
+    return  <div style={{marginTop:"20px"}}>
         <h3 style={{margin:"10px 0",backgroundColor:"navy",color:"white"}}>Sales report</h3>
         <label >From <input type = "date" onChange={(e)=>dispatch(Actions.setDateFrom(e.target.value))} value={from}/></label>
         <label > to <input type = "date" onChange={(e)=>dispatch(Actions.setDateTo(e.target.value))} value={to}/></label>
         <button onClick={()=>{dispatch(Actions.getSalesReportData(from,to)); dispatch(Actions.getGroupSalesReportData(from,to));}}>Report</button>
-        {MyChart(salesChartData)}
+        {
+
+requestStatus.requestStatus===RequestStatusActions.REQUEST_SENT ? 
+<div style={{display:"flex", width: '80vw',height: '30vh', justifyContent:"center", alignItems:"center"}}>
+  <CircularProgress />
+</div>
+:
+requestStatus.requestStatus===RequestStatusActions.REQUEST_FAILED ?
+<div style={{display:"flex", width: '80vw',height: '30vh', justifyContent:"center", alignItems:"center"}}>
+   <span>{requestStatus.infoString}</span>
+</div>
+:
+          <div style={{width: '80vw',height: '30vh'}}>
+             { MyChart(salesChartData)}
+          </div>
+        }
         {console.log(salesChartData)}
         <h3 style={{margin:"10px 0",backgroundColor:"navy",color:"white"}}>
             TOTAL : 

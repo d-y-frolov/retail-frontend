@@ -1,4 +1,5 @@
 import {URL, URL_PATH_REPORT_SALES,URL_PATH_REPORT_GROUP_SALES} from '../config/server';
+import * as RequestStatusActions from './actions-request-status';
 import axios from 'axios';
 
 export const SET_REPORT_SALES_DATA='[reports] set sales data';
@@ -9,11 +10,17 @@ export const SET_DATE_TO='[reports] set finish date';
 export function getSalesReportData(from, to){
     return async (dispatch)=>{
         try{
+            dispatch(RequestStatusActions.setRequestStatusToSent());
+            console.log(`----getSalesReportData(${from}, ${to})`);
             const salesReportData = await axios.get(`${URL}/${URL_PATH_REPORT_SALES}?from=${from}&to=${to}`)
                 .then(response=>response.data);
+            console.log(`DONE ----getSalesReportData(${from}, ${to})`);
             dispatch({type:SET_REPORT_SALES_DATA, payload:salesReportData});
+            dispatch(RequestStatusActions.setRequestStatusToSucceeded());
         }catch(e){
-            console.log('ERROR',e);
+            dispatch(RequestStatusActions.setRequestStatusToFailed(e.message));
+            // console.log('ERROR',e);
+            console.dir(e);
         }
 
     }

@@ -1,4 +1,4 @@
-// export const URL='http://192.168.1.15:8080';
+// export const URL='http://192.168.1.17:8080';
 export const URL='https://retail-back-end.herokuapp.com/';
 export const URL_PATH_PRODUCT='product';
 export const URL_PATH_CHECK='check';
