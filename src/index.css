@@ -1,3 +1,7 @@
+body{
+  margin:8px 2px;
+}
+
 body *{
   box-sizing: border-box;
   

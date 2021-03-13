@@ -31,9 +31,7 @@ const TableGrid =  ({datasource, needBtn, onBtnClickCallback, columns})=>{
                            for(let key in obj){
                                headerArr.push(<div style={{width:`${100/Object.keys(obj).length}%` }} key={key} className={classes.headerItem}>{key}</div>);
                            }
-                                // headerArr.push(<div style={{width:`${(needBtn?btnWidth:0)+scrollWidth}px`}} key={headerArr.length} className={classes.headerBtn}>&nbsp;</div>)
                        }else{
-                            // const obj = columns;
                             for(let i=0;i<columns.length;i++){
                                 headerArr.push(<div style={{width:`${columns[i].width}px`}} key={i} className={classes.headerItem}>{columns[i].headerName}</div>);
                             }
@@ -61,7 +59,13 @@ const TableGrid =  ({datasource, needBtn, onBtnClickCallback, columns})=>{
                                     for(let i=0; i<columns.length;i++){
                                         bodyArr.push(<div style={{width:`${columns[i].width}px`,textAlign:`${columns[i].type==='number'?'right':'left'}`}} key={i} 
                                                 className={classes.bodyItem}>
-                                            {formatField(obj[columns[i].field])}
+                                                {   
+                                                (()=>{
+                                                    const fields = columns[i].field.split(',');
+                                                    const field = fields.map(f=>formatField(obj[f])).join(' ');
+                                                    return field;
+                                                    })()
+                                                }
                                             </div>);
                                     }
                                 }

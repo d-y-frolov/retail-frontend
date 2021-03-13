@@ -5,26 +5,26 @@
     gap: 5px;
 }
 .wrapProducts{
-    width:700px;
-    /* flex-grow: 9; */
-    min-width:400px;
-    height: 400px;
+    width:405px;
+    height: 600px;
     border: 1px solid lightgray;
     display:flex;
     flex-direction: column;
 }
-.wrapProductsControl #add-product{
-    margin-left: 100px;
+.wrapProductsControl{
+    display:flex;
+    gap: 3px;
+    padding:2px;
 }
 .wrapGroups{
-    min-width:400px;
+    width:390px;
     height: 250px;
     border: 1px solid lightgray;
     display:flex;
     flex-direction: column;
 }
 .wrapUnits{
-    min-width:400px;
+    width:390px;
     height: 250px;
     border: 1px solid lightgray;
     display:flex;

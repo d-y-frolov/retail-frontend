@@ -1,0 +1,78 @@
+.modalWrapper{
+    position:absolute;
+    left:0;
+    right: 0;
+    top:0;
+    bottom:0;
+    z-index: 9;
+    background-color: rgba(250, 250, 250, 0.5);
+}
+.modalWindow{
+    width:380px;
+    height: 95vh;
+    margin:0 auto;
+    padding:5px 0;
+    background-color: white;
+    border: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.8rem;
+}
+.checkWrapper{
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    overflow-y: scroll;
+    border-top:1px dashed grey;
+    border-bottom:1px dashed grey;
+    margin-bottom:5px;
+}
+.headerWrapper{
+    border-top:1px dashed black;
+    border-bottom:1px dashed black;
+    margin: 20px 2px 0;
+    font-size: 0.9em;
+}
+.detailsWrapper{
+    border-bottom:1px dashed black;
+    margin: 0 2px;
+}
+.detailWrapper{
+    display:flex;
+    column-gap: 3px;
+}
+
+
+.spanDetailId{
+    word-break: break-word;
+    width:95px;
+}
+.spanDetailName{
+    word-break: break-word;
+    width:80px;
+}
+.spanDetailPrice{
+    word-break: break-word;
+    width:40px;
+    text-align: right;
+}
+.spanDetailQuantity{
+    word-break: break-word;
+    width:40px;
+    text-align: right;
+}
+.spanDetailSum{
+    word-break: break-word;
+    width:50px;
+    text-align: right;
+}
+.spanTotal{
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+/* .spanVAT{
+    font-style: italic;
+} */

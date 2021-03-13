@@ -1,13 +1,14 @@
 .wrapper{
     /* width: 1000px; */
-    margin: 5px 0px auto;
-    padding:5px;
+    margin: 5px auto;
+    padding:5px 1px;
     display: flex;
     /* flex-direction: column; */
     align-items: flex-start;
     flex-wrap: wrap;
 }
 .infowrapper{
+    height: 20px;
     border: 1px solid lightgray;
     display:flex;
     flex-wrap: wrap;
@@ -17,15 +18,16 @@
 .inputwrapper{
     display:flex;
     /* flex-wrap: wrap; */
-    width:555px;
+    width:371px;
     padding:3px;
     row-gap: 1rem;
     /* justify-content: center; */
 }
+
 .gridwrapper{
     /* width:99%; */
     height:40vh;
-    width: 555px;
+    width: 380px;
     overflow:scroll;
     display:flex;
     flex-direction: column;
@@ -76,25 +78,25 @@
 } */
 .headerwrapper{
     /* width:99%;    */
-    width: 555px;
+    width: 380px;
     border:1px solid grey;
 }
 .totalwrapper{
     /* border: 1px solid grey; */
     /* margin:0 auto; */
-    width: 300px;
+    width: 200px;
     /* min-width: 200px; */
-    min-height: 120px;
+    min-height: 80px;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-end;
     /* align-content: flex-end; */
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 .totalwrapper button{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     /* font-weight: inherit; */
     background-color: green;
 }
@@ -102,8 +104,8 @@
     background-color: green;
 }
 .cancelwrapper{
-    width: 250px;
-    min-height: 120px;
+    width: 150px;
+    height: 90px;
     display:flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -112,9 +114,10 @@
     text-align: left;
     padding:2px;
     color:gray;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
     width:100%;
     min-height: 60px;
     border:1px solid gainsboro;
 }
+

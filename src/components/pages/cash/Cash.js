@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import * as Actions from '../../../redux/actions-cash';
 import {CASH_ID} from '../../../config/server';
 import EditDetail from './EditDetail';
+import Check from './Check';
 import {normalizeSum,normalizeStringSum,normalizeQuantity, normalizeStringQuantity} from '../../../utils/utilFunctions';
 const LOCALSTORAGE_KEY = 'cash-info';
 const Cash=()=>{
@@ -34,6 +35,7 @@ const Cash=()=>{
     const [quantity, setQuantity] = useState(1.00);
     // const [cashInfo, setCashInfo] = useState(getStartCashInfo());
     const [editDetail, setEditDetail] = useState({show:false});
+    const [showCheck, setShowCheck] = useState({show:false});
     
 
     // function saveCashInfo(newCashInfo){
@@ -108,8 +110,11 @@ const Cash=()=>{
         if (!details.length){
             return
         }
+        const totalSum = calcTotal();
+        setShowCheck({show:true, check:{sum:totalSum}, details:[...details]})
         // dispatch( Actions.saveCheck( details, cashInfo.nextNumber, CASH_ID, parseFloat( calcTotal() ) ) );
-        dispatch( Actions.saveCheck( details, 0, CASH_ID, parseFloat( calcTotal() ) ) );
+
+        dispatch( Actions.saveCheck( details, 0, CASH_ID, parseFloat( totalSum ) ) );
         // const newCashInfo={nextNumber:cashInfo.nextNumber+1};
         // saveCashInfo(newCashInfo);
         // setCashInfo(newCashInfo);
@@ -123,16 +128,19 @@ const Cash=()=>{
         const totalNum = details.map(v=>v.price*v.quantity).reduce((p,c)=>p+=c,0);
         return normalizeStringSum(totalNum);
     }
+    function onCloseCheckWindow(){
+        setShowCheck({show:false});
+    }
     const columns = [
         { field: '_n', headerName: '№', width: 20/*, type:'number' */},
-        { field: 'id', headerName: 'Code', width: 120 },
-        { field: 'name', headerName: 'Name', width: 120 },
-        { field: 'price', headerName: 'Price', width: 80, type: 'number' },
-        { field: 'quantity', headerName: 'Quantity', width: 80, type: 'number' },
-        { field: 'unitId', headerName: 'Unit', width: 50 },
+        { field: 'id', headerName: 'Code/name', width: 120 },
+        // { field: 'name', headerName: 'Name', width: 120 },
+        { field: 'price', headerName: 'Price', width: 70, type: 'number' },
+        { field: 'quantity', headerName: 'Quantity', width: 70, type: 'number' },
+        { field: 'unitId', headerName: 'Unit', width: 35 },
         // { field: 'sum', headerName: 'Sum', width: 120, type: 'number' },
         // { field: 'tax', headerName: 'Tax(%)', width: 80, type: 'number' },
-        { field: '_btn', headerName: '...', width: 80}
+        { field: '_btn', headerName: '...', width: 45}
       ];
     function editDetailOnClickHandler(detail, index){
         setEditDetail({show:true, detail, index});
@@ -154,6 +162,7 @@ const Cash=()=>{
     return  (
         <>
         {editDetail.show ? <EditDetail detail={editDetail.detail} index={editDetail.index} closeHandler={closeEditDetailHandler}/> : <></>}
+        {showCheck.show ? <Check check={showCheck.check} details={showCheck.details} closeHandler={onCloseCheckWindow}/> : <></>}
 
         <div className={classes.wrapper}>
             <div className={classes.checkwrapper}>
@@ -175,14 +184,15 @@ const Cash=()=>{
                     {   
                     details.map((v,i)=><div key={i} className={classes.gridrowwrapper}>
                         <span style={{width:`${columns[0].width}px`,textAlign:columns[0].type==="number"?"right":"left"}}>{i+1}</span>
-                        <span style={{width:`${columns[1].width}px`,textAlign:columns[1].type==="number"?"right":"left"}}>{v.id}</span>
-                        <span style={{width:`${columns[2].width}px`,textAlign:columns[2].type==="number"?"right":"left"}}>{v.name}</span>
-                        <span style={{width:`${columns[3].width}px`,textAlign:columns[3].type==="number"?"right":"left"}}>{normalizeStringSum(v.price)}</span>
-                        <span style={{width:`${columns[4].width}px`,textAlign:columns[4].type==="number"?"right":"left"}}>{normalizeStringQuantity(v.quantity,v.pieceUnit)}</span>
-                        <span style={{width:`${columns[5].width}px`,textAlign:columns[5].type==="number"?"right":"left"}}>{v.unitId}</span>
+                        <span style={{width:`${columns[1].width}px`,textAlign:columns[1].type==="number"?"right":"left"}}>{v.id}<br/>{v.name}</span>
+                        {/* <span style={{width:`${columns[2].width}px`,textAlign:columns[2].type==="number"?"right":"left"}}>{v.name}</span> */}
+                        <span style={{width:`${columns[2].width}px`,textAlign:columns[2].type==="number"?"right":"left"}}>{normalizeStringSum(v.price)}</span>
+                        <span style={{width:`${columns[3].width}px`,textAlign:columns[3].type==="number"?"right":"left"}}>{normalizeStringQuantity(v.quantity,v.pieceUnit)}</span>
+                        <span style={{width:`${columns[4].width}px`,textAlign:columns[4].type==="number"?"right":"center"}}>{v.unitId}</span>
                         {/* <span style={{width:`${columns[6].width}px`,textAlign:columns[6].type==="number"?"right":"left"}}>{normalizeStringSum(v.sum)}</span>
                         <span style={{width:`${columns[7].width}px`,textAlign:columns[7].type==="number"?"right":"left"}}>{v.tax}</span> */}
-                        <Button variant="outlined" disableElevation onClick={()=>editDetailOnClickHandler(v,i)}>...</Button>
+                        {/* <Button variant="outlined" disableElevation onClick={()=>editDetailOnClickHandler(v,i)}>...</Button> */}
+                        <button style={{width:`${columns[5].width}px`}} onClick={()=>editDetailOnClickHandler(v,i)}>...</button>
                     </div>)
                     }
                     <div ref={divRef}></div>
@@ -200,12 +210,12 @@ const Cash=()=>{
                     </div>
                 </div>
                 <div className={classes.inputwrapper}>
-                    <TextField required id="outlined-required" label="Barcode" variant="outlined" value={bar}
+                    <TextField id="inputBarcode" label="Barcode" variant="outlined" value={bar}
                         onChange={(event)=>setBar(event.target.value)} />
                     <Button variant="outlined" color="primary" onClick={()=>barCodeOnClickHandler()} disableElevation>
                         Find
                     </Button>
-                    <TextField type="number" required id="outlined-required" label="Quantity" variant="outlined" value={quantity}
+                    <TextField type="number" style={{width:"120px"}} id="inputQuantity" label="Quantity" variant="outlined" value={quantity}
                         onChange={(event)=>setQuantity(event.target.value)} />
                     <Button variant="contained" color="primary" onClick={()=>addOnClickHandler()} disableElevation>
                         ADD
@@ -216,12 +226,12 @@ const Cash=()=>{
                     <span>TOTAL</span>
                     <span>{calcTotalString()} </span>
                     <Button variant="contained" color="primary" onClick={()=>totalOnClickHandler()} disableElevation>
-                        Done / PAY CHECK
+                        PAY CHECK
                     </Button>
                 </div> 
                 <div className={classes.cancelwrapper}>
                     <Button variant="contained" color="secondary" onClick={()=>totalOnCancelHandler()} disableElevation>
-                        Cancel / Clear check
+                        Clear check
                     </Button>
                 </div> 
                 </div>
