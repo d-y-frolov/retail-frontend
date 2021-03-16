@@ -18,5 +18,4 @@ export function reducerReport(state=initState, actions){
                 return {...state, to:actions.payload};
         default:return state;
     }
-
 }

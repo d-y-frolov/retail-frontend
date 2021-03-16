@@ -1,70 +1,23 @@
-# Getting Started with Create React App
+Retail Demo Application
+========================
+POS
+---
+The POS tab emulates a POS terminal and allows you to make sales of goods. Pressing the SCAN button simulates the reading of the product by a barcode scanner. In this case, the goods are selected in random order. You can change the quantity and price of a product by clicking the "..." button in the product line. You can also manually enter the desired barcode and immediately indicate the required quantity of goods. The generated check can be paid by pressing "PAY CHECK" or canceled by pressing "CLEAR CHECK".
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+BackOffice
+----------
+The BackOffice tab allows you to search, view, add, modify and delete goods. Also, there you can see what groups of goods and units of measurement of goods are.
 
-## Available Scripts
+Reports
+--------
+On the REPORTS tab it is possible to see sales by day in the form of a chart and in the form of a report of sales by groups and dates within a certain period.
 
-In the project directory, you can run:
+Backend part
+============
+The backend part was implemented in Java using Spring Web and Spring Data JPA. H2 is used as a database.
+GitHub: https://github.com/d-y-frolov/retail-backend
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Frontend part
+=============
+The frontend part is made in Javascript as a single page application using React. Redux is used as a centralized store.
+GitHub: https://github.com/d-y-frolov/retail-frontend

@@ -16,8 +16,8 @@ const Retail=({history})=>{
                 in the product line. 
                 You can also manually enter the desired barcode and immediately indicate 
                 the required quantity of goods. 
-                The generated check can be paid by pressing "DONE / PAY CHECK" or canceled by 
-                pressing "CANCEL / CLEAR CHECK".
+                The generated check can be paid by pressing "PAY CHECK" or canceled by 
+                pressing "CLEAR CHECK".
 
             </p>
             <button className={`${classes.mrgntop30px} ${classes.cursorPointer}`}
@@ -37,11 +37,15 @@ const Retail=({history})=>{
             <h4 className={classes.mrgntop30px}>Backend part</h4>
             <p>
                 The backend part was implemented in Java using Spring Web and Spring Data JPA. H2 is used as a database.
+                <br/>
+                GitHub: <a href="https://github.com/d-y-frolov/retail-backend" target="_blank">https://github.com/d-y-frolov/retail-backend</a>
             </p>
             <h4 className={classes.mrgntop30px}>Frontend part</h4>
             <p>
                 The frontend part is made in Javascript as a single page application using React. 
                 Redux is used as a centralized store.
+                <br/>
+                GitHub: <a href="https://github.com/d-y-frolov/retail-frontend" target="_blank">https://github.com/d-y-frolov/retail-frontend</a>
             </p>
         </div>
     )

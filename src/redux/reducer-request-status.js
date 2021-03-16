@@ -1,5 +1,4 @@
 import {REQUEST_SENT, REQUEST_SUCCEEDED, REQUEST_FAILED} from './actions-request-status';
-// import {requestStatusCodes} from './actions-request-status';
 const initState = {
     requestStatus: REQUEST_SENT,
     infoString:""

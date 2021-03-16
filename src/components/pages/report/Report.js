@@ -6,50 +6,25 @@ import * as RequestStatusActions from '../../../redux/actions-request-status';
 import { Chart } from 'react-charts';
 import {normalizeSum,normalizeStringSum,normalizeQuantity, normalizeStringQuantity} from '../../../utils/utilFunctions';
 function getData(chartData){
-    // const data = [{"stringDate":"2021-02-16","sum":121733.15},{"stringDate":"2021-02-17","sum":10499.81},{"stringDate":"2021-02-18","sum":15635.64},{"stringDate":"2021-02-19","sum":483.96},{"stringDate":"2021-02-21","sum":819.26},{"stringDate":"2021-02-22","sum":778.31},{"stringDate":"2021-02-24","sum":-4956.08},{"stringDate":"2021-02-25","sum":189.98}];
     const data = [...chartData];
     return data.map(d=>{return {x:d.stringDate,y:d.sum}});
 } 
 
 function MyChart(chartData) {
-    console.log(chartData)
-    const data = /*React.useMemo(
-      () => */[
+    const data = [
         {
           label: 'Series 1', 
-        //   data: [{ x: "2011-01-12", y: 11 }, { x: "2011-02-15", y: 10 }, { x: "2011-03-12", y: 9 }]
           data:getData(chartData) 
-        }/*,
-        {
-          label: 'Series 2',
-          data: [{ x: "2011-01-12", y: 10 }, { x: "2011-02-12", y: 11 }, { x: "2011-03-12", y: 5 }]
-        },
-        {
-          label: 'Series 3',
-          data: [{ x: "2011-01-12", y: 19 }, { x: "2011-02-12", y: 10 }, { x: "2011-03-12", y: 10 }]
-        }*/
-      ]/*,
-      []
-    )*/
+        }
+      ]
    
-    const axes = /*React.useMemo(
-      () => */[
+    const axes = [
         { primary: true, type: 'ordinal', position: 'bottom' },
         { type: 'linear', position: 'left' }
-      ]/*,
-      []
-    )*/
+      ]
    
     return (
-      // <div
-      //   style={{
-      //     width: '80vw',
-      //     height: '30vh'
-      //   }}
-      // >
         <Chart data={data} axes={axes} />
-        // {/* <Chart data={chartData} axes={axes} /> */}
-      // </div>
     )
   }
 
@@ -85,7 +60,6 @@ requestStatus.requestStatus===RequestStatusActions.REQUEST_FAILED ?
              { MyChart(salesChartData)}
           </div>
         }
-        {console.log(salesChartData)}
         <h3 style={{margin:"10px 0",backgroundColor:"navy",color:"white"}}>
             TOTAL : 
             {normalizeStringSum(groupSalesData.map(gr=>gr.data.map(d=>d.sum).reduce((p,c)=>p+c, 0)).reduce((p,c)=>p+c, 0))}

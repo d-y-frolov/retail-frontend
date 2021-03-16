@@ -33,7 +33,6 @@ export function addProduct(newProduct){
         }
         try{
             const response = await Axios.post(`${URL}/${URL_PATH_PRODUCT}`,body).then(response => response.data);
-            console.log(response);
             dispatch({type:ADD_PRODUCT, payload:newProduct});
 
         }catch(e){console.error(e);}
@@ -55,7 +54,6 @@ export function updateProduct(updatedProduct){
         }
         try{
             const response = await Axios.put(`${URL}/${URL_PATH_PRODUCT}`,body).then(response => response.data);
-            console.log(response);
             dispatch({type:UPDATE_PRODUCT, payload:updatedProduct});
         }catch(e){console.error(e);}
     }
@@ -65,8 +63,6 @@ export function removeProduct(removedProductId){
     return async (dispatch)=>{
         try{
             const response = await Axios.delete(`${URL}/${URL_PATH_PRODUCT}/${removedProductId}`).then(response => response.data);
-            console.log(response);
-            console.log("ACTIONS_REMOVE_PRODUCT:ID="+removedProductId);
             dispatch({type:REMOVE_PRODUCT, payload:removedProductId});
         }catch(e){console.error(e);}
     }

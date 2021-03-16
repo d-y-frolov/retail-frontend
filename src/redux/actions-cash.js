@@ -19,13 +19,11 @@ export function getCashInfo(){
     return async dispatch => {
         try{
             const cashInfo = await Axios.get(`${URL}/${URL_PATH_CASH}/${CASH_ID}`).then(response => response.data);
-            console.log('CASH_INFO',cashInfo);
             dispatch({type:SET_CASH_INFO, payload:cashInfo?cashInfo:{id:-1,name:`Unknown cash register with CASH_ID=${CASH_ID}`, info:""}});
         }catch(e){console.error(e);}
     }
 }
 export function saveCheck(details, checkId, cashId, totalSum){
-    // console.log(details);
     return async dispatch => {
         const detailsToCheck = details.map( d => { 
             return {
@@ -44,10 +42,8 @@ export function saveCheck(details, checkId, cashId, totalSum){
             details:detailsToCheck,
             sum:parseFloat(totalSum)
         }
-        console.log("CHECK BODY:",body);
         try{
             const response = await Axios.post(`${URL}/${URL_PATH_CHECK}`, body).then(response => response.data);
-            console.log(response);
             const details = []
             dispatch({type:SAVE_CASH_CHECK, payload:details});
         }catch(e){console.log(e);}

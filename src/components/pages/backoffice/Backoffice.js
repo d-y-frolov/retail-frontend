@@ -39,22 +39,18 @@ const Backoffice=()=>{
     const closeProductDetailHandler = (product, index)=>{
 
         if (index===Crud.ADD){  //add new product
-            console.log("After ProductDetail ADD_PRODUCT: ", product, index);
             dispatch(Actions.addProduct(product));
             return;
         }
         setProductDetail({show:false});
         if (index===Crud.DELETE){ //remove product
-            console.log("After ProductDetail REMOVE_PRODUCT: ", product, index);
             dispatch(Actions.removeProduct(product.id));
             return;
         }
         if (product.id){ //update product
-            console.log("After ProductDetail UPDATE_PRODUCT: ", product, index);
             dispatch(Actions.updateProduct(product));
             return;
         }
-        console.log("After ProductDetail CANCEL: ", product, index);
     }
     const onAddProductBtnClickHandler = ()=>{
         const newProduct = getEmptyProduct();
@@ -67,21 +63,15 @@ const Backoffice=()=>{
             newProduct.unitName = units[0].name;
             newProduct.pieceUnit = units[0].pieceUnit   ;
         }
-        console.log("NEW_PRODUCT", newProduct, groups, units);
         onBodyBtnClickHandler(newProduct, Crud.ADD);
     }
 
     const productColumns = [
         { field: 'groupId,id,name', headerName: `Group / Code / Name`, width: 120 },
-        // { field: 'name', headerName: 'Name', width: 120 },
-        // { field: 'groupId', headerName: 'Gr', width: 30 },
         { field: 'price', headerName: 'Price', width: 65, type: 'number' },
         { field: 'remainder', headerName: 'Remainder', width: 60, type: 'number' },
-        // { field: 'remainder,unitId', headerName: 'Remainder', width: 70, type: 'number' },
-        // { field: 'unitId', headerName: 'Un', width: 30 },
         { field: 'tax', headerName: 'Tax %', width: 30, type: 'number' },
         { field: 'country,manufacturer', headerName: 'Country Manuf', width: 55},
-        // { field: 'manufacturer', headerName: 'Manufact', width: 70},
       ];
     return(
         <>
@@ -106,13 +96,6 @@ const Backoffice=()=>{
             <span>units</span>
                 <TableGrid datasource = {units} needBtn={false}/>
             </div>
-            {/* <div className={classes.wrapCashes}>
-            <span>cashes</span>
-                <TableGrid datasource = {cashes} needBtn={false}/>
-            </div>
-            <div className={classes.wrapChecks}>
-            <span>checks</span>
-            </div> */}
             </div>
         </div>
         </>

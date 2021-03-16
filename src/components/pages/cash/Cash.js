@@ -24,24 +24,11 @@ const Cash=()=>{
             "tax":0
         }
     }
-    // function getStartCashInfo(){
-    //     const info = localStorage.getItem(LOCALSTORAGE_KEY);
-    //     if (info){
-    //         return JSON.parse(info);
-    //     }
-    //     return { nextNumber:1 };
-    // }
     const [product, setProduct] = useState(getEmptyProduct);
     const [quantity, setQuantity] = useState(1.00);
-    // const [cashInfo, setCashInfo] = useState(getStartCashInfo());
     const [editDetail, setEditDetail] = useState({show:false});
     const [showCheck, setShowCheck] = useState({show:false});
     
-
-    // function saveCashInfo(newCashInfo){
-    //     console.log(newCashInfo);
-    //     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(newCashInfo));
-    // }
     useEffect( ()=>{
         dispatch( Actions.getProducts() );
         dispatch(Actions.getCashInfo());
@@ -92,10 +79,7 @@ const Cash=()=>{
         const maxRange = products.length;
         const index = Math.floor(Math.random() * maxRange);
         const randomBar = products[index].id;
-        console.log(maxRange, index, randomBar, products, products[index] );
         addOnClickHandler({...products[index]});
-        // setProduct(products[index]);
-        // setBar(randomBar) ;
     }
     function totalOnCancelHandler(){
         if (!details.length){
@@ -108,23 +92,18 @@ const Cash=()=>{
     }
     function totalOnClickHandler(){
         if (!details.length){
-            return
+            return;
         }
         const totalSum = calcTotal();
-        setShowCheck({show:true, check:{sum:totalSum}, details:[...details]})
-        // dispatch( Actions.saveCheck( details, cashInfo.nextNumber, CASH_ID, parseFloat( calcTotal() ) ) );
+        setShowCheck({show:true, check:{sum:totalSum}, details:[...details]});
 
         dispatch( Actions.saveCheck( details, 0, CASH_ID, parseFloat( totalSum ) ) );
-        // const newCashInfo={nextNumber:cashInfo.nextNumber+1};
-        // saveCashInfo(newCashInfo);
-        // setCashInfo(newCashInfo);
     }
     function calcTotal(){
         const totalNum = details.map(v=>v.price*v.quantity).reduce((p,c)=>p+=c,0);
         return normalizeSum(totalNum);
     }
     function calcTotalString(){
-        // return (details.map(v=>v.price*v.quantity).reduce((p,c)=>p+=c,0)).toFixed(2);
         const totalNum = details.map(v=>v.price*v.quantity).reduce((p,c)=>p+=c,0);
         return normalizeStringSum(totalNum);
     }
@@ -132,14 +111,11 @@ const Cash=()=>{
         setShowCheck({show:false});
     }
     const columns = [
-        { field: '_n', headerName: '№', width: 20/*, type:'number' */},
+        { field: '_n', headerName: '№', width: 20},
         { field: 'id', headerName: 'Code/name', width: 120 },
-        // { field: 'name', headerName: 'Name', width: 120 },
         { field: 'price', headerName: 'Price', width: 70, type: 'number' },
         { field: 'quantity', headerName: 'Quantity', width: 70, type: 'number' },
         { field: 'unitId', headerName: 'Unit', width: 35 },
-        // { field: 'sum', headerName: 'Sum', width: 120, type: 'number' },
-        // { field: 'tax', headerName: 'Tax(%)', width: 80, type: 'number' },
         { field: '_btn', headerName: '...', width: 45}
       ];
     function editDetailOnClickHandler(detail, index){
@@ -148,15 +124,12 @@ const Cash=()=>{
     function closeEditDetailHandler(detail, index){
         setEditDetail( {show:false} );
         if( !detail ){
-            console.log("EditDetail result: CANCEL");
             return;
         }
         if (!detail.id){
-            console.log("EditDetail result: DELETE");
             dispatch(Actions.deleteDetail(index));
             return;
             }
-        console.log("EditDetail result: OK");
         dispatch(Actions.updateDetail(detail, index));
     }
     return  (
@@ -167,7 +140,6 @@ const Cash=()=>{
         <div className={classes.wrapper}>
             <div className={classes.checkwrapper}>
                 <div className={classes.infowrapper}>
-                    {/* <span>Check № {cashInfo.nextNumber}</span> */}
                     <span>{cash.name}</span>
                     <span>{cash.info}</span>
                 </div>
@@ -177,7 +149,6 @@ const Cash=()=>{
                     {
                         columns.map((v,i)=><span key={i} style={{width:`${v.width}px`}}>{v.headerName} </span>) 
                     }
-                    {/* <span/> */}
                     </div>
                 </div>
                 <div className={classes.gridwrapper}>
@@ -185,13 +156,9 @@ const Cash=()=>{
                     details.map((v,i)=><div key={i} className={classes.gridrowwrapper}>
                         <span style={{width:`${columns[0].width}px`,textAlign:columns[0].type==="number"?"right":"left"}}>{i+1}</span>
                         <span style={{width:`${columns[1].width}px`,textAlign:columns[1].type==="number"?"right":"left"}}>{v.id}<br/>{v.name}</span>
-                        {/* <span style={{width:`${columns[2].width}px`,textAlign:columns[2].type==="number"?"right":"left"}}>{v.name}</span> */}
                         <span style={{width:`${columns[2].width}px`,textAlign:columns[2].type==="number"?"right":"left"}}>{normalizeStringSum(v.price)}</span>
                         <span style={{width:`${columns[3].width}px`,textAlign:columns[3].type==="number"?"right":"left"}}>{normalizeStringQuantity(v.quantity,v.pieceUnit)}</span>
                         <span style={{width:`${columns[4].width}px`,textAlign:columns[4].type==="number"?"right":"center"}}>{v.unitId}</span>
-                        {/* <span style={{width:`${columns[6].width}px`,textAlign:columns[6].type==="number"?"right":"left"}}>{normalizeStringSum(v.sum)}</span>
-                        <span style={{width:`${columns[7].width}px`,textAlign:columns[7].type==="number"?"right":"left"}}>{v.tax}</span> */}
-                        {/* <Button variant="outlined" disableElevation onClick={()=>editDetailOnClickHandler(v,i)}>...</Button> */}
                         <button style={{width:`${columns[5].width}px`}} onClick={()=>editDetailOnClickHandler(v,i)}>...</button>
                     </div>)
                     }

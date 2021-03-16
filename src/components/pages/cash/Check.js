@@ -6,11 +6,7 @@ import Button from '@material-ui/core/Button';
 
 export default function Check({check, details, closeHandler}){
     const cash = useSelector(state=>state.cash.cashInfo);
-    console.log('CASH:', cash);
-    console.log('CHECK:',check, details,closeHandler);
     function calculateTax(){
-        console.log(typeof details[0].sum);
-        console.log(typeof details[0].tax);
         const totalTaxSum = details.map(v=>v.sum*v.tax/100).reduce((v1,v2)=>v1 + v2);
         return totalTaxSum;
     }
@@ -44,7 +40,6 @@ export default function Check({check, details, closeHandler}){
                     <span className={classes.spanVAT}> including VAT: {normalizeStringSum(calculateTax())} </span>
                 </div>
 
-                {/* <button className={classes.buttonClose} onClick={closeHandler}>Close</button> */}
                 <Button variant="contained" color="primary" onClick={closeHandler} disableElevation>
                         Close
                     </Button>

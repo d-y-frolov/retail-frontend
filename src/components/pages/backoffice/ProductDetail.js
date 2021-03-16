@@ -16,7 +16,6 @@ export default function ProductDetail({detail, index, closeHandler}){
     const [product, setProduct] = useState({...detail});
     const [errorBarcode, setErrorBarcode] = useState(false);
     const [errorName, setErrorName] = useState(false);
-    console.log("InProductDetail:", detail, index);
     const groups = useSelector(state=>state.backoffice.groups);
     const units = useSelector(state=>state.backoffice.units);
     const ADD_MODE = index===Crud.ADD ? true : false;
@@ -69,7 +68,7 @@ export default function ProductDetail({detail, index, closeHandler}){
                         onChange={onChangeHandler} />
                     <TextField type="number" required label="Remainder" variant="outlined" id="remainder" value={product.remainder}
                         onChange={onChangeHandler} />
-                    <FormControl required /*className={classes.formControl}*/>
+                    <FormControl required>
                         <InputLabel id="unit-select-label">Unit</InputLabel>
                         <Select labelId="unit-select-label" id="unit-select" value={product.unitId}
                         onChange={({target})=>{
