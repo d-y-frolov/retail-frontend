@@ -1,5 +1,5 @@
 import React,{useState, useRef} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import CheckBox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -10,14 +10,18 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Snackbar from '@material-ui/core/Snackbar';
 import classes from './ProductDetail.module.css';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import * as RequestStatusActions from '../../../redux/actions-request-status';
 import * as Crud from '../../../config/crudConstants';
 
 export default function ProductDetail({detail, index, closeHandler}){
+    const dispatch = useDispatch();
     const [product, setProduct] = useState({...detail});
     const [errorBarcode, setErrorBarcode] = useState(false);
     const [errorName, setErrorName] = useState(false);
     const groups = useSelector(state=>state.backoffice.groups);
     const units = useSelector(state=>state.backoffice.units);
+    const requestStatus = useSelector(state=>state.requestStatus);
     const ADD_MODE = index===Crud.ADD ? true : false;
     const refBarcode = useRef(null);
     const refName = useRef(null);
@@ -43,8 +47,10 @@ export default function ProductDetail({detail, index, closeHandler}){
 
     return (
         <div className={classes.modalBackground}>
-            <Snackbar anchorOrigin={{ vertical:"top", horizontal:"left" }} open={errorBarcode} autoHideDuration={3000} onClose={()=>setErrorBarcode(false)} message="Barcode is empty"/>
-            <Snackbar anchorOrigin={{ vertical:"top", horizontal:"left" }} open={errorName} autoHideDuration={3000} onClose={()=>setErrorName(false)} message="Name is empty"/>
+            {/* {console.log(requestStatus)} */}
+            <Snackbar anchorOrigin={{ vertical:"top", horizontal:"left" }} open={errorBarcode} autoHideDuration={2000} onClose={()=>setErrorBarcode(false)} message="Barcode is empty"/>
+            <Snackbar anchorOrigin={{ vertical:"top", horizontal:"left" }} open={errorName} autoHideDuration={2000} onClose={()=>setErrorName(false)} message="Name is empty"/>
+            {/* <Snackbar anchorOrigin={{ vertical:"top", horizontal:"left" }} open={requestStatus.requestStatus===RequestStatusActions.REQUEST_FAILED} autoHideDuration={2000} onClose={()=>dispatch(RequestStatusActions.setRequestStatusToNone)} message={requestStatus.infoString}/> */}
             <div className={classes.modal}>
                 <div className={classes.headerWrapper}>
                     <TextField type="text" ref={refBarcode} error={product.id?false:true} required label="Barcode" variant="outlined" id="id" value={product.id}

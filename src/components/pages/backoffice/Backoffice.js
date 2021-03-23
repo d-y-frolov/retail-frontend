@@ -4,8 +4,10 @@ import Button from '@material-ui/core/Button';
 import {useDispatch, useSelector} from "react-redux";
 import * as Actions from '../../../redux/actions-backoffice';
 import {normalizeSum,normalizeStringSum,normalizeQuantity, normalizeStringQuantity} from '../../../utils/utilFunctions';
+import * as RequestStatusActions from '../../../redux/actions-request-status';
 import './Backoffice.css';
 import classes from './Backoffice.module.css';
+import Snackbar from '@material-ui/core/Snackbar';
 import {getEmptyProduct} from '../../../models/product'
 import TableGrid from '../../library/tableGrid/TableGrid';
 import ProductDetail from './ProductDetail'
@@ -22,6 +24,7 @@ const Backoffice=()=>{
     const units = useSelector(state=>state.backoffice.units);
     const products = useSelector(state=>state.backoffice.products);
     const checks = useSelector(state=>state.backoffice.checks);
+    const requestStatus = useSelector(state=>state.requestStatus);
     
     useEffect(()=>{
         dispatch(Actions.getCashes());
@@ -75,6 +78,12 @@ const Backoffice=()=>{
       ];
     return(
         <>
+        <Snackbar anchorOrigin={{ vertical:"top", horizontal:"left" }} 
+            open={requestStatus.requestStatus===RequestStatusActions.REQUEST_FAILED || 
+                requestStatus.requestStatus===RequestStatusActions.REQUEST_SUCCEEDED &&
+                requestStatus.infoString!==''
+            } 
+            autoHideDuration={2000} onClose={()=>dispatch(RequestStatusActions.setRequestStatusToNone())} message={requestStatus.infoString}/>
         {productDetail.show ? <ProductDetail detail={productDetail.product} index={productDetail.index} closeHandler={closeProductDetailHandler}/> : <></>}
         <div className={classes.wrapBackoffice}>
             <div className={classes.wrapProducts}>
