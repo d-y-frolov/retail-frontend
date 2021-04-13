@@ -1,5 +1,6 @@
 import {URL, URL_PATH_PRODUCT, URL_PATH_CHECK, URL_PATH_CASH, CASH_ID} from '../config/server'
-import Axios, {AxiosError} from "axios";
+import Axios, {AxiosResponse,AxiosError} from "axios";
+import * as RequestStatusActions from './actions-request-status';
 export const SET_CASH_PRODUCTS = "[cash]-set-products";
 export const SET_CASH_INFO = "[cash]-set-info";
 export const SAVE_CASH_CHECK = "[cash]-save-check";
@@ -38,15 +39,36 @@ export function saveCheck(details, checkId, cashId, totalSum){
             cash:{
                 id:cashId,
             },
-            dateTime:new Date().toJSON(),
+            // dateTime:new Date().toJSON(),
             details:detailsToCheck,
             sum:parseFloat(totalSum)
         }
-        try{
-            const response = await Axios.post(`${URL}/${URL_PATH_CHECK}`, body).then(response => response.data);
-            const details = []
-            dispatch({type:SAVE_CASH_CHECK, payload:details});
-        }catch(e){console.log(e);}
+        console.log(body.dateTime);
+        // console.log((new Date(body.dateTime)).toLocaleDateString());
+        // console.log((new Date(body.dateTime)).toLocaleTime());
+        // console.log(new Date());
+        // console.log(typeof body.dateTime);
+        dispatch(RequestStatusActions.setRequestStatusToSent());
+        const response = await Axios.post(`${URL}/${URL_PATH_CHECK}`, body)
+            .then(response => {
+                const details = []
+                dispatch({type:SAVE_CASH_CHECK, payload:details});
+                dispatch(RequestStatusActions.setRequestStatusToSucceeded(`${response.data.type}:: ${response.data.payload}`));
+                console.log(response.data);
+                return response.data;
+            })
+            .catch(err=>{
+                if(err.response){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.response.data));
+                    console.log(err.response.data);
+                }else if(err.request){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.request.status));
+                    console.log(err.request);
+                }else{
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.message));
+                    console.log(err);
+                }
+            });
     };
 }
 

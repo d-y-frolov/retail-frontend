@@ -4,7 +4,7 @@ import classes from './Check.module.css'
 import {normalizeSum,normalizeStringSum,normalizeQuantity, normalizeStringQuantity} from '../../../utils/utilFunctions';
 import Button from '@material-ui/core/Button';
 
-export default function Check({check, details, closeHandler}){
+export default function Check({check, details, checkId, closeHandler}){
     const cash = useSelector(state=>state.cash.cashInfo);
     function calculateTax(){
         const totalTaxSum = details.map(v=>v.sum*v.tax/100).reduce((v1,v2)=>v1 + v2);
@@ -15,7 +15,7 @@ export default function Check({check, details, closeHandler}){
             <div className={classes.modalWindow}>
                 <div className={classes.checkWrapper}>
                     <span> {cash.info} </span>
-                    <span> check </span>
+                    <span> Check № {checkId.split('::')[1].split(',')[0]}&nbsp;&nbsp;&nbsp;{checkId.split('::')[1].split(',')[1].substr(0,19).replace('T',' ')}</span>
                     <div className={classes.headerWrapper}>
                         <div className={classes.detailWrapper}>
                             <span className={classes.spanDetailId}>code</span>

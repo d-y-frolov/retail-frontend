@@ -16,7 +16,8 @@ export function findProducts(searchString){
             const prods = await Axios.get(`${URL}/${URL_PATH_PRODUCT}?search=${searchString}`)
                 .then(response => {
                     dispatch({type:SET_BACKOFFICE_PRODUCTS, payload:response.data});
-                    dispatch(RequestStatusActions.setRequestStatusToSucceeded());
+                    dispatch(RequestStatusActions.setRequestStatusToSucceeded(`Found products: ${response.data.length}`));
+                    return response.data;
                 })
                 .catch(err=>{
                     if(err.response){
@@ -49,18 +50,19 @@ export function addProduct(newProduct){
         dispatch(RequestStatusActions.setRequestStatusToSent());
         const response = await Axios.post(`${URL}/${URL_PATH_PRODUCT}`,body)
             .then(response => {
-            dispatch({type:ADD_PRODUCT, payload:newProduct});
-            dispatch(RequestStatusActions.setRequestStatusToSucceeded('Product added'));
-                })
+                dispatch({type:ADD_PRODUCT, payload:newProduct});
+                dispatch(RequestStatusActions.setRequestStatusToSucceeded('Product added'));
+                return response.data;
+            })
             .catch(err=>{
             if(err.response) {
-                dispatch(RequestStatusActions.setRequestStatusToFailed("Not added: "+err.response.data.message));
+                dispatch(RequestStatusActions.setRequestStatusToFailed(`Not added: ${err.response.data.message}`));
                 console.log("ERR RESPONSE :", err.response);
             }else if(err.request){
-                dispatch(RequestStatusActions.setRequestStatusToFailed("Not added: "+err.request.status));
+                dispatch(RequestStatusActions.setRequestStatusToFailed(`Not added: ${err.request.status}`));
                 console.log("ERR REQUEST :", err.request);
             }else{
-            dispatch(RequestStatusActions.setRequestStatusToFailed("Not added: "+err.message));
+            dispatch(RequestStatusActions.setRequestStatusToFailed(`Not added: ${err.message}`));
             console.log("ERROR :", err);}
             });
     }
@@ -79,23 +81,22 @@ export function updateProduct(updatedProduct){
             "manufacturer":updatedProduct.manufacturer,
             "country":updatedProduct.country
         }
-        // try{
         dispatch(RequestStatusActions.setRequestStatusToSent());
         const response = await Axios.put(`${URL}/${URL_PATH_PRODUCT}`,body)
             .then(response => {
-                // response.data
                 dispatch({type:UPDATE_PRODUCT, payload:updatedProduct});
                 dispatch(RequestStatusActions.setRequestStatusToSucceeded('Product updated'));
+                return response.data;
             })
             .catch(err=>{
                 if (err.response){
-                    dispatch(RequestStatusActions.setRequestStatusToFailed('Not updated: '+err.response.data.message));
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(`Not updated: ${err.response.data.message}`));
                     console.error(err.response);
                 }else if (err.request){
-                    dispatch(RequestStatusActions.setRequestStatusToFailed('Not updated: '+err.request.status));
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(`Not updated: ${err.request.status}`));
                     console.error(err.request);
                 }else{
-                    dispatch(RequestStatusActions.setRequestStatusToFailed('Not updated: '+err.message));
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(`Not updated: ${err.message}`));
                     console.error(err);
                 }
             });
@@ -109,17 +110,18 @@ export function removeProduct(removedProductId){
             .then(response => {
                 dispatch({type:REMOVE_PRODUCT, payload:removedProductId});
                 dispatch(RequestStatusActions.setRequestStatusToSucceeded('Product deleted'));
+                return response.data;
             })
             .catch(err=>{
                 if (err.response){
-                    dispatch(RequestStatusActions.setRequestStatusToFailed('Not deleted: '+err.response.data));
-                    console.error("ERROR RESPONSE: "+err.response.data);
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(`Not deleted: ${err.response.data}`));
+                    console.error(`ERROR RESPONSE: ${err.response.data}`);
                 }else if(err.request){
-                    dispatch(RequestStatusActions.setRequestStatusToFailed('Not deleted: '+err.request.status));
-                    console.error("ERROR REQUEST: "+err.request);
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(`Not deleted: ${err.request.status}`));
+                    console.error(`ERROR REQUEST: ${err.request}`);
                 }else{
-                    dispatch(RequestStatusActions.setRequestStatusToFailed('Not deleted: '+err.message));
-                    console.error("ERROR: "+err);
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(`Not deleted: ${err.message}`));
+                    console.error(`ERROR: ${err}`);
                 }
             });
     }
@@ -128,49 +130,93 @@ export function removeProduct(removedProductId){
 
 export function findChecks(checkId){
     return async (dispatch)=>{
-        try{
-            dispatch(RequestStatusActions.setRequestStatusToSent());
-            const checks = await Axios.get(`${URL}/${URL_PATH_CHECK}/${checkId}`).then(response => response.data);
-            dispatch({type:SET_BACKOFFICE_CHECKS, payload:checks});
-            dispatch(RequestStatusActions.setRequestStatusToSucceeded());
-        }catch(e){
-            dispatch(RequestStatusActions.setRequestStatusToFailed(e.message));
-            console.error(e);}
+        dispatch(RequestStatusActions.setRequestStatusToSent());
+        const checks = await Axios.get(`${URL}/${URL_PATH_CHECK}/${checkId}`)
+            .then(response => {
+                dispatch({type:SET_BACKOFFICE_CHECKS, payload:response.data});
+                dispatch(RequestStatusActions.setRequestStatusToSucceeded());
+                return response.data;
+            })
+            .catch(err=>{
+                if (err.response){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.response.data.message));
+                    console.error(`ERROR RESPONSE: ${err.response.data}`);
+                }else if (err.request){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.request.status));
+                    console.error(`ERROR REQUEST: ${err.request}`);
+                }else{
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.message));
+                    console.error(err);
+                }
+            });
     }
 }
 export function getCashes(){
     return async (dispatch)=>{
-        try{
-            dispatch(RequestStatusActions.setRequestStatusToSent());
-            const cashes = await Axios.get(`${URL}/${URL_PATH_CASH}`).then(response => response.data);
-            dispatch({type:SET_BACKOFFICE_CASHES, payload:cashes});
-            dispatch(RequestStatusActions.setRequestStatusToSucceeded());
-        }catch(e){
-            dispatch(RequestStatusActions.setRequestStatusToFailed(e.message));
-            console.error(e);}
+        dispatch(RequestStatusActions.setRequestStatusToSent());
+        const cashes = await Axios.get(`${URL}/${URL_PATH_CASH}`)
+            .then(response => {
+                dispatch({type:SET_BACKOFFICE_CASHES, payload:response.data});
+                dispatch(RequestStatusActions.setRequestStatusToSucceeded());
+                return response.data;
+            })
+            .catch(err=>{
+                if (err.response){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.response.data));
+                    console.error(err.response.data);
+                }else if (err.request){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.request.status));
+                    console.error(err.request);
+                }else{
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.message));
+                    console.error(err);
+                }
+            });
     }
 }
 export function getGroups(){
     return async (dispatch)=>{
-        try{
-            dispatch(RequestStatusActions.setRequestStatusToSent());
-            const groups = await Axios.get(`${URL}/${URL_PATH_GROUP}`).then(response => response.data);
-            dispatch({type:SET_BACKOFFICE_GROUPS, payload:groups});
-            dispatch(RequestStatusActions.setRequestStatusToSucceeded());
-        }catch(e){
-            dispatch(RequestStatusActions.setRequestStatusToFailed(e.message));
-            console.error(e);}
+        dispatch(RequestStatusActions.setRequestStatusToSent());
+        const groups = await Axios.get(`${URL}/${URL_PATH_GROUP}`)
+            .then(response => {
+                dispatch({type:SET_BACKOFFICE_GROUPS, payload:response.data});
+                dispatch(RequestStatusActions.setRequestStatusToSucceeded());
+                return response.data;
+            })
+            .catch(err=>{
+                if (err.response){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.resonse.data))
+                    console.error(err.response.data);
+                }else if(err.request){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.request.status))
+                    console.error(err.request);
+                }else{
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.message));
+                    console.error(err);
+                }
+            });
     }
 }
 export function getUnits(){
     return async (dispatch)=>{
-        try{
-            dispatch(RequestStatusActions.setRequestStatusToSent());
-            const units = await Axios.get(`${URL}/${URL_PATH_UNIT}`).then(response => response.data);
-            dispatch({type:SET_BACKOFFICE_UNITS, payload:units});
-            dispatch(RequestStatusActions.setRequestStatusToSucceeded());
-        }catch(e){
-            dispatch(RequestStatusActions.setRequestStatusToFailed(e.message));
-            console.error(e);}
+        dispatch(RequestStatusActions.setRequestStatusToSent());
+        const units = await Axios.get(`${URL}/${URL_PATH_UNIT}`)
+            .then(response => {
+                dispatch({type:SET_BACKOFFICE_UNITS, payload:response.data});
+                dispatch(RequestStatusActions.setRequestStatusToSucceeded());
+                return response.data;
+            })
+            .catch(err=>{
+                if (err.response){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.response.data));
+                    console.error(err.response.data);
+                }else if(err.request){
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.request.status));
+                    console.error(err.request.status);
+                }else{
+                    dispatch(RequestStatusActions.setRequestStatusToFailed(err.message));
+                    console.error(err);
+                }
+            });
     }
 }

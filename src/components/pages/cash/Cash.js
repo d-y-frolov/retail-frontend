@@ -8,6 +8,7 @@ import * as Actions from '../../../redux/actions-cash';
 import {CASH_ID} from '../../../config/server';
 import EditDetail from './EditDetail';
 import Check from './Check';
+import {setRequestStatusToNone, REQUEST_SENT, REQUEST_SUCCEEDED, REQUEST_FAILED, REQUEST_NONE} from '../../../redux/actions-request-status';
 import {normalizeSum,normalizeStringSum,normalizeQuantity, normalizeStringQuantity} from '../../../utils/utilFunctions';
 const LOCALSTORAGE_KEY = 'cash-info';
 const Cash=()=>{
@@ -36,6 +37,7 @@ const Cash=()=>{
     const products = useSelector(state=>state.cash.products);
     const details = useSelector(state=>state.cash.details);
     const cash = useSelector(state=>state.cash.cashInfo);
+    const requestStatus = useSelector(state=>state.requestStatus);
     const divRef = useRef(null);
     useEffect(()=>{
         console.log('changed details');
@@ -109,6 +111,7 @@ const Cash=()=>{
     }
     function onCloseCheckWindow(){
         setShowCheck({show:false});
+        dispatch(setRequestStatusToNone());
     }
     const columns = [
         { field: '_n', headerName: '№', width: 20},
@@ -135,7 +138,7 @@ const Cash=()=>{
     return  (
         <>
         {editDetail.show ? <EditDetail detail={editDetail.detail} index={editDetail.index} closeHandler={closeEditDetailHandler}/> : <></>}
-        {showCheck.show ? <Check check={showCheck.check} details={showCheck.details} closeHandler={onCloseCheckWindow}/> : <></>}
+        {showCheck.show && requestStatus.requestStatus===REQUEST_SUCCEEDED? <Check check={showCheck.check} checkId={requestStatus.infoString} details={showCheck.details} closeHandler={onCloseCheckWindow}/> : <></>}
 
         <div className={classes.wrapper}>
             <div className={classes.checkwrapper}>
