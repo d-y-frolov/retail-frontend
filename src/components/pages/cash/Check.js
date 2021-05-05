@@ -10,12 +10,18 @@ export default function Check({check, details, checkId, closeHandler}){
         const totalTaxSum = details.map(v=>v.sum*v.tax/100).reduce((v1,v2)=>v1 + v2);
         return totalTaxSum;
     }
+    const id = checkId.split('::')[1].split(',')[0];
+    const dateTime = new Date(checkId.split('::')[1].split(',')[1]);
+    const strDateTime = dateTime.getFullYear()+'-'+dateTime.getMonth()+'-'+dateTime.getDate()+
+        ' '+dateTime.getHours()+':'+dateTime.getMinutes();
+    console.log(id, strDateTime);
     return (
         <div className={classes.modalWrapper}>
             <div className={classes.modalWindow}>
                 <div className={classes.checkWrapper}>
                     <span> {cash.info} </span>
-                    <span> Check № {checkId.split('::')[1].split(',')[0]}&nbsp;&nbsp;&nbsp;{checkId.split('::')[1].split(',')[1].substr(0,19).replace('T',' ')}</span>
+                    {/* <span> Check № {checkId.split('::')[1].split(',')[0]}&nbsp;&nbsp;&nbsp;{checkId.split('::')[1].split(',')[1].substr(0,19).replace('T',' ')}</span> */}
+                    <span> Check № {id}&nbsp;&nbsp;&nbsp;{dateTime.toLocaleString()}</span>
                     <div className={classes.headerWrapper}>
                         <div className={classes.detailWrapper}>
                             <span className={classes.spanDetailId}>code</span>
